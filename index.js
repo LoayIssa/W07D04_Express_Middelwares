@@ -9,10 +9,13 @@ const logUsers = (req,res,next) =>{
     console.log("logUsers")
     next()
 }
-//app.use("/users",logUsers)
-
-
-app.get("/users", logUsers, (req, res, next) => {
+const logMethod  = (req,res,next)=>{
+    console.log(logMethod);
+    next()
+}
+//app.use("/users",logMethod)
+app.use(logUsers);
+app.get("/users",logMethod, (req, res, next) => {
   res.json(users);
 });
 
