@@ -32,15 +32,24 @@ app.get("/users", (req, res, next) => {
     }
 });
 
-app.use((err,req,res,next)=>{
- res.status(err.status);
- res.json({
-     error:{
-         status:err.status,
-         message: err.message,
-     },
- });
-});
+//--Q6 
+app.get("*", (req, res, next) => {
+    const err = new Error("Not Found");
+    err.status = 404;
+  
+    next(err);
+  });
+/*------ */
+
+// app.use((err,req,res,next)=>{
+//  res.status(err.status);
+//  res.json({
+//      error:{
+//          status:err.status,
+//          message: err.message,
+//      },
+//  });
+// });
 //q1
 
 const usersRouter = express.Router();
@@ -86,7 +95,25 @@ productsRouter.put("/products/update/:name",(req,res,next)=>{
     products[index] = updateName
     res.json(products)
 })
-app.use(productsRouter)
+//app.use(productsRouter)
+//5
+const productRouter1=(req,res,next) => {
+    console.log( req.method);
+     next();
+}
+//app.use("/products",productRouter1)
+
+//6 
+
+app.use((err, req, res, next) => {
+    res.status(err.status);
+    res.json({
+      error: {
+        status: err.status,
+        message: err.message,
+      },
+    });
+  });
 
                                            
 app.listen(port, () => {
