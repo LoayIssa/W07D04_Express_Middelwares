@@ -1,3 +1,4 @@
+const { Router } = require("express");
 const express = require("express");
 
 const app = express();
@@ -59,9 +60,35 @@ app.post("/users/create",(req,res,next)=>{
     users.push(req.body.name);
     next()
 })
-app.use("/users/create",logUser)
+//app.use("/users/create",logUser)
+//q3
+const products =["keyboard","mouse "]
 
+const productsRouter = express.Router();
+productsRouter.get("/products",(req,res,next)=>{
 
+    res.json(products)
+
+})
+//4
+
+productsRouter.put("/products/update/:name",(req,res,next)=>{
+    
+    const name = req.params.name
+    const updateName = req.body.name
+
+    let index;
+    let product = products.find((el,i) => {
+        index = i;
+        return el === name
+    })
+
+    products[index] = updateName
+    res.json(products)
+})
+app.use(productsRouter)
+
+                                           
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
